@@ -14,7 +14,7 @@ trait GenericMessageTrait
     /**
      * @var array
      */
-    protected $arguments = [];
+    protected $context = [];
 
     /**
      * @return mixed
@@ -24,22 +24,14 @@ trait GenericMessageTrait
         return $this->subject;
     }
 
-    /**
-     * @return array
-     */
-    public function getArguments(): array
+    public function hasContext(string $key): bool
     {
-        return $this->arguments;
+        return array_key_exists($key, $this->context);
     }
 
-    public function hasArgument(string $key): bool
+    public function getContext(string $key = null)
     {
-        return array_key_exists($key, $this->getArguments());
-    }
-
-    public function getArgument(string $key)
-    {
-        return $this->hasArgument($key) ? $this->arguments[$key] : null;
+        return ($key && $this->hasContext($key)) ? $this->context[$key] : $this->context;
 
     }
 

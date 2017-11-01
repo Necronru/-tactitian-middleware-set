@@ -3,9 +3,7 @@
 
 namespace Necronru\Tactitian\Middleware\GenericMessage;
 
-
 use League\Tactician\Middleware;
-use Necronru\Tactitian\Middleware\GenericMessage\IGenericMessage;
 
 class GenericMessageMiddleware implements Middleware
 {

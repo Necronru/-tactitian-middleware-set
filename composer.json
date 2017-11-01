@@ -22,5 +22,14 @@
         "files": [
             "src/TypeCast/functions.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Necronru\\Tactitian\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5@dev",
+        "monolog/monolog": "^2.0@dev"
     }
 }

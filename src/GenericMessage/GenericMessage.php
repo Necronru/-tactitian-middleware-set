@@ -11,6 +11,6 @@ class GenericMessage implements IGenericMessage
     public function __construct($subject, array $arguments = [])
     {
         $this->subject = $subject;
-        $this->arguments = $arguments;
+        $this->context = $arguments;
     }
 }

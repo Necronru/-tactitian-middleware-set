@@ -53,7 +53,9 @@ class MessageLogMiddleware implements Middleware
     {
         $guid = $this->guidExtractor->getGuid($message);
         $messageClass = get_class($message);
-        $messageName = array_pop(explode('\\', $messageClass));
+
+        $arr = explode('\\', $messageClass);
+        $messageName = array_pop($arr);
 
         try {
 
@@ -73,10 +75,10 @@ class MessageLogMiddleware implements Middleware
 
         } catch (\Exception $ex) {
             $this->logger->error('message executing failed ' . $messageName, [
-                'guid'        => $guid,
-                'message'     => $ex->getMessage(),
-                'code'        => $ex->getCode(),
-                'stack_trace' => $ex->getTraceAsString(),
+                'guid'                   => $guid,
+                'exceptionMessage'       => $ex->getMessage(),
+                'exceptionCode'          => $ex->getCode(),
+                'exceptionTraceAsString' => $ex->getTraceAsString(),
             ]);
 
             throw $ex;

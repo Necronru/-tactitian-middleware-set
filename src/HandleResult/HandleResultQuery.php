@@ -22,11 +22,8 @@ class HandleResultQuery implements IHandleResultQuery
      */
     public function __construct($query, $callbacks)
     {
-        foreach ((array) $callbacks as $callable) {
-            $this->addCallback($callable);
-        };
-
         $this->query = $query;
+        $this->callbacks = (array)$callbacks;
     }
 
     /**
@@ -43,10 +40,5 @@ class HandleResultQuery implements IHandleResultQuery
     public function getCallbacks()
     {
         return $this->callbacks;
-    }
-
-    protected function addCallback(callable $callable)
-    {
-        $this->callbacks[] = $callable;
     }
 }
