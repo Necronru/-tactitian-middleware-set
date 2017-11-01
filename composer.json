@@ -1,0 +1,26 @@
+{
+    "name": "necronru/tactitian-middleware-set",
+    "description": "Tactitian CommandBus middleware set",
+    "type": "library",
+    "require": {
+        "php": ">=7.1",
+        "league/tactician": "^1.0",
+        "psr/container": "^1.0@dev",
+        "psr/log": "^1.0@dev"
+    },
+    "authors": [
+        {
+            "name": "Roman Toroshin",
+            "email": "necronru@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Necronru\\Tactitian\\Middleware\\": "src/"
+        },
+        "files": [
+            "src/TypeCast/functions.php"
+        ]
+    }
+}
