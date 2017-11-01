@@ -9,8 +9,6 @@ use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
 use League\Tactician\Handler\Locator\HandlerLocator;
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use League\Tactician\Middleware;
-use Necronru\Tactitian\Middleware\TypeCast\TypeCastMessageInflector;
-use Necronru\Tactitian\Middleware\TypeCast\ITypeCastableQuery;
 
 class TypeCastMessageMiddleware implements Middleware
 {

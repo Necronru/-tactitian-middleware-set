@@ -3,12 +3,13 @@
 
 namespace Necronru\Tactitian\Middleware\TypeCast;
 
-class TypeCastQuery implements ITypeCastableQuery
+class CastToTypeQuery implements ITypeCastableQuery
 {
     /**
      * @var
      */
     private $query;
+
     /**
      * @var string
      */
@@ -19,6 +20,7 @@ class TypeCastQuery implements ITypeCastableQuery
         $this->query = $query;
         $this->type = $type;
     }
+
 
     /**
      * @return mixed

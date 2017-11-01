@@ -20,3 +20,13 @@ function arrayOf(string $type)
 {
     return sprintf('arrayOf<%s>', $type);
 }
+
+/**
+ * @param string|null $type json, serialize, xml, etc.
+ *
+ * @return string
+ */
+function custom(string $type)
+{
+    return sprintf('custom<%s>', $type);
+}

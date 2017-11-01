@@ -5,7 +5,6 @@ namespace Necronru\Tactitian\Middleware\TypeCast;
 
 
 use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
-use Necronru\Tactitian\Middleware\TypeCast\ITypeCastableQuery;
 
 class TypeCastMessageInflector implements MethodNameInflector
 {
@@ -47,12 +46,16 @@ class TypeCastMessageInflector implements MethodNameInflector
             $methodName = $this->getScalarHandleMethodName($matches[1]);
         }
 
+        if (preg_match($this->getTypeOfStringRegex(), $command->getType(), $matches)) {
+            $methodName = $this->getScalarHandleMethodName($matches[3]);
+        }
+
         if (!$methodName) {
             throw new \Exception('Type ' . $command->getType() . ' is not supported.');
         }
 
         if (!method_exists($commandHandler, $methodName)) {
-            throw new \Exception($command->getType() . ' is not supported for ' . get_class($commandHandler) . '.');
+            throw new \Exception('Response of type "' . $command->getType() . '" is not supported for ' . get_class($commandHandler) . ' because method '.$methodName.' does not exists.');
         }
 
         return $methodName;
@@ -61,7 +64,7 @@ class TypeCastMessageInflector implements MethodNameInflector
 
     public function getScalarHandleMethodName($type)
     {
-        return 'handleAs' . ucfirst($type);
+        return 'handleAs' . preg_replace('/[^A-Za-z0-9\-]/', '', ucwords($type, '_'));
     }
 
     /**
@@ -70,5 +73,13 @@ class TypeCastMessageInflector implements MethodNameInflector
     public function getTypeOfClassRegex(): string
     {
         return '/^(object|arrayOf)(\<)(.*)(\>)$/';
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeOfStringRegex(): string
+    {
+        return '/^(custom)(\<)(.*)(\>)$/';
     }
 }
