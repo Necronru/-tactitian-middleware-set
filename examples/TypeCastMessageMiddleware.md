@@ -1,13 +1,6 @@
-<?php require_once __DIR__ . '/../vendor/autoload.php';
+Lets define our test Dto, Query and Handler
 
-use League\Tactician\CommandBus;
-use League\Tactician\Handler\CommandHandlerMiddleware;
-use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
-use League\Tactician\Handler\Locator\InMemoryLocator;
-use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
-use Necronru\Tactitian\Middleware\TypeCast\CastTo;
-use Necronru\Tactitian\Middleware\TypeCast\TypeCastMessageMiddleware;
-
+```php
 class Awesome
 {
     public $id = 1;
@@ -84,6 +77,18 @@ class GetAwesomeHandler
         return json_encode($this->handleAsArray($query));
     }
 }
+```
+
+Now, let create and configure Tactitian CommandBus with TypeCastMessageMiddleware
+
+```php
+use League\Tactician\CommandBus;
+use League\Tactician\Handler\CommandHandlerMiddleware;
+use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
+use League\Tactician\Handler\Locator\InMemoryLocator;
+use League\Tactician\Handler\MethodNameInflector\InvokeInflector;
+use Necronru\Tactitian\Middleware\TypeCast\CastTo;
+use Necronru\Tactitian\Middleware\TypeCast\TypeCastMessageMiddleware;
 
 $classNameExtractor = new ClassNameExtractor();
 $locator = new InMemoryLocator([
@@ -100,13 +105,16 @@ $queryBus = new CommandBus([
 
     new CommandHandlerMiddleware($classNameExtractor, $locator, $inflector),
 ]);
+```
 
-var_dump(
-    $queryBus->handle(CastTo::customType(new GetAwesomeQuery(), 'json')),
-    $queryBus->handle(CastTo::array(new GetAwesomeQuery())),
-    $queryBus->handle(CastTo::int(new GetAwesomeQuery())),
-    $queryBus->handle(CastTo::string(new GetAwesomeQuery())),
-    $queryBus->handle(CastTo::bool(new GetAwesomeQuery())),
-    $queryBus->handle(CastTo::object(new GetAwesomeQuery(), Awesome::class)),
-    $queryBus->handle(CastTo::arrayOf(new GetAwesomeQuery(), Awesome::class))
-);
+Done. Now we use TypeCast query:
+
+```php
+$queryBus->handle(CastTo::customType(new GetAwesomeQuery(), 'json')); // {"id":1}
+$queryBus->handle(CastTo::array(new GetAwesomeQuery())); // ["id" => 1]
+$queryBus->handle(CastTo::int(new GetAwesomeQuery())); // 1
+$queryBus->handle(CastTo::string(new GetAwesomeQuery())); // "1" 
+$queryBus->handle(CastTo::bool(new GetAwesomeQuery())); // true
+$queryBus->handle(CastTo::object(new GetAwesomeQuery(), Awesome::class)); // object(Awesome) 
+$queryBus->handle(CastTo::arrayOf(new GetAwesomeQuery(), Awesome::class); // [ object(Awesome) ]
+```
