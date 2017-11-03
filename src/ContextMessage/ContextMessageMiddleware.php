@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Necronru\Tactitian\Middleware\GenericMessage;
+namespace Necronru\Tactitian\Middleware\ContextMessage;
 
 use League\Tactician\Middleware;
 
-class GenericMessageMiddleware implements Middleware
+class ContextMessageMiddleware implements Middleware
 {
     /**
      * @param object   $command
@@ -15,7 +15,7 @@ class GenericMessageMiddleware implements Middleware
      */
     public function execute($command, callable $next)
     {
-        if ($command instanceof IGenericMessage) {
+        if ($command instanceof IContextMessage) {
             return $next($command->getSubject());
         }
 

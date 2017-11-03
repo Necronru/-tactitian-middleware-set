@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Necronru\Tactitian\Middleware\HandleResult;
+namespace Necronru\Tactitian\Middleware\MutableResult;
 
 
 use League\Tactician\Middleware;
 use Psr\Container\ContainerInterface;
 
-class HandleResultMiddleware implements Middleware
+class MutableResultMiddleware implements Middleware
 {
     /**
      * @var ContainerInterface
@@ -28,8 +28,8 @@ class HandleResultMiddleware implements Middleware
      */
     public function execute($command, callable $next)
     {
-        if ($command instanceof IHandleResultQuery) {
-            $callbacks = $command->getCallbacks();
+        if ($command instanceof IMutableResultQuery) {
+            $callbacks = $command->getMutators();
 
             $returnValue = $next($command->getQuery());
 
@@ -51,7 +51,7 @@ class HandleResultMiddleware implements Middleware
                     continue;
                 }
 
-                throw new HandleResultMiddlewareException('Chain member #' . $key . ' is not callable.');
+                throw new MutableResultMiddlewareException('Chain member #' . $key . ' is not callable.');
             }
 
             return $returnValue;

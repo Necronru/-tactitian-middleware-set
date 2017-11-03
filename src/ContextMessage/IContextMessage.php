@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Necronru\Tactitian\Middleware\GenericMessage;
+namespace Necronru\Tactitian\Middleware\ContextMessage;
 
 
-interface IGenericMessage
+interface IContextMessage
 {
 
     /**

@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Necronru\Tactitian\Middleware\HandleResult;
+namespace Necronru\Tactitian\Middleware\MutableResult;
 
 
-class HandleResultQuery implements IHandleResultQuery
+class MutateResult implements IMutableResultQuery
 {
     /**
      * @var callable[]
      */
-    private $callbacks = [];
+    private $mutators = [];
 
     /**
      * @var mixed
@@ -18,12 +18,12 @@ class HandleResultQuery implements IHandleResultQuery
 
     /**
      * @param  mixed                     $query
-     * @param callable[]|callable|string $callbacks
+     * @param callable[]|callable|string $mutators
      */
-    public function __construct($query, $callbacks)
+    public function __construct($query, $mutators)
     {
         $this->query = $query;
-        $this->callbacks = (array)$callbacks;
+        $this->mutators = (array)$mutators;
     }
 
     /**
@@ -37,8 +37,8 @@ class HandleResultQuery implements IHandleResultQuery
     /**
      * @inheritdoc
      */
-    public function getCallbacks()
+    public function getMutators()
     {
-        return $this->callbacks;
+        return $this->mutators;
     }
 }

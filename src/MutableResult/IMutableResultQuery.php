@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Necronru\Tactitian\Middleware\HandleResult;
+namespace Necronru\Tactitian\Middleware\MutableResult;
 
 
-interface IHandleResultQuery
+interface IMutableResultQuery
 {
     /**
      * @return mixed
@@ -14,6 +14,6 @@ interface IHandleResultQuery
     /**
      * @return callable[]
      */
-    public function getCallbacks();
+    public function getMutators();
 
 }

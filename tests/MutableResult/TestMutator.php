@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Necronru\Tactitian\Tests\HandleResult;
+namespace Necronru\Tactitian\Tests\MutableResult;
 
 
-class TestModifer
+class TestMutator
 {
     public function __invoke($returnValue, $message)
     {

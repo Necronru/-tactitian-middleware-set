@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Necronru\Tactitian\Middleware\GenericMessage;
+namespace Necronru\Tactitian\Middleware\ContextMessage;
 
 
-class GenericMessage implements IGenericMessage
+class ContextMessage implements IContextMessage
 {
-    use GenericMessageTrait;
+    use ContextMessageTrait;
 
     public function __construct($subject, array $arguments = [])
     {

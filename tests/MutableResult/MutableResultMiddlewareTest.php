@@ -1,21 +1,21 @@
 <?php
 
 
-namespace Necronru\Tactitian\Tests\HandleResult;
+namespace Necronru\Tactitian\Tests\MutableResult;
 
-use Necronru\Tactitian\Middleware\HandleResult\HandleResultMiddleware;
-use Necronru\Tactitian\Middleware\HandleResult\HandleResultQuery;
+use Necronru\Tactitian\Middleware\MutableResult\MutableResultMiddleware;
+use Necronru\Tactitian\Middleware\MutableResult\MutateResult;
 use Necronru\Tactitian\Tests\CommandBusTestCase;
 use Necronru\Tactitian\Tests\Message\SuccessTestMessage;
 use Necronru\Tactitian\Tests\SimpleContainer;
 
-class HandleResultMiddlewareTest extends CommandBusTestCase
+class MutableResultMiddlewareTest extends CommandBusTestCase
 {
     public static function createMessageBus($middleware = [])
     {
         return parent::createMessageBus(array_merge($middleware, [
-            new HandleResultMiddleware(new SimpleContainer([
-                TestModifer::class => new TestModifer()
+            new MutableResultMiddleware(new SimpleContainer([
+                TestMutator::class => new TestMutator()
             ]))
         ]));
     }
@@ -25,7 +25,7 @@ class HandleResultMiddlewareTest extends CommandBusTestCase
         $messageBus = static::createMessageBus();
 
         $result = $messageBus->handle(
-            new HandleResultQuery(new SuccessTestMessage(), function($returnValue, HandleResultQuery $message) {
+            new MutateResult(new SuccessTestMessage(), function($returnValue, MutateResult $message) {
                 return $returnValue . '2';
             })
         );
@@ -33,7 +33,7 @@ class HandleResultMiddlewareTest extends CommandBusTestCase
         $this->assertEquals($result, 'test2');
 
         $result = $messageBus->handle(
-            new HandleResultQuery(new SuccessTestMessage(), [
+            new MutateResult(new SuccessTestMessage(), [
                 function($returnValue) { return $returnValue . '2';},
                 function($returnValue) { return $returnValue . '2';},
             ])
@@ -42,12 +42,12 @@ class HandleResultMiddlewareTest extends CommandBusTestCase
         $this->assertEquals($result, 'test22');
 
         $this->assertEquals(
-            $messageBus->handle(new HandleResultQuery(new SuccessTestMessage(), TestModifer::class)),
+            $messageBus->handle(new MutateResult(new SuccessTestMessage(), TestMutator::class)),
             'test__invoke'
         );
 
         $this->assertEquals(
-            $messageBus->handle(new HandleResultQuery(new SuccessTestMessage(), [TestModifer::class, TestModifer::class])),
+            $messageBus->handle(new MutateResult(new SuccessTestMessage(), [TestMutator::class, TestMutator::class])),
             'test__invoke__invoke'
         );
     }
